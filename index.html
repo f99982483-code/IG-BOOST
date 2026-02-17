@@ -1,160 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instagram UI Clone</title>
+<title>Instagram Boost</title>
 
 <style>
-/* Instagram background */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
-/* Main card */
-.container {
-  background: white;
-  width: 350px;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(0,0,0,0.3);
+.container{
+background:white;
+padding:30px;
+border-radius:15px;
+width:320px;
+text-align:center;
+box-shadow:0 0 25px rgba(0,0,0,0.3);
 }
 
-/* Instagram title */
-.title {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 20px;
+.logo{
+font-size:30px;
+font-weight:bold;
+margin-bottom:20px;
 }
 
-/* Input fields */
-input[type="text"],
-input[type="file"] {
-  width: 90%;
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
+input, select{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
-/* Blue button */
-button {
-  width: 95%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #0095f6;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
+button{
+width:100%;
+padding:12px;
+margin-top:12px;
+border:none;
+border-radius:8px;
+background:#0095f6;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
 }
 
-/* Hover glow effect */
-button:hover {
-  background: #1877f2;
-  box-shadow: 0 0 15px #0095f6, 0 0 30px #0095f6;
-  transform: scale(1.05);
+button:hover{
+background:#1877f2;
+box-shadow:0 0 15px #0095f6,0 0 25px #0095f6;
+transform:scale(1.05);
 }
 
-/* Image preview */
-#preview {
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 10px;
-  display: none;
+.qr{
+width:200px;
+margin-top:15px;
 }
 
-.status {
-  margin-top: 10px;
-  font-size: 14px;
-  color: green;
+.hidden{
+display:none;
 }
 
+#preview{
+width:100%;
+margin-top:10px;
+border-radius:10px;
+display:none;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-<div class="title">Instagram</div>
+<div class="logo">Instagram</div>
 
-<input type="text" id="username" placeholder="Username">
+<input type="text" id="username" placeholder="Enter Username" required>
 
-<input type="file" id="imageUpload" accept="image/*">
+<select id="package" required>
+<option value="">Select Package</option>
+<option value="1K Followers - ₹28">1K Followers - ₹28</option>
+<option value="5K Followers - ₹120">5K Followers - ₹120</option>
+<option value="10K Followers - ₹220">10K Followers - ₹220</option>
+</select>
+
+<button onclick="showQR()">Continue</button>
+
+<div id="paymentSection" class="hidden">
+
+<h3>Scan & Pay</h3>
+
+<img src="myqr.png" class="qr">
+
+<input type="file" id="screenshot" accept="image/*">
 
 <img id="preview">
 
-<button onclick="uploadData()">Upload</button>
+<button onclick="submitData()">Upload Screenshot</button>
 
-<div class="status" id="status"></div>
+</div>
 
 </div>
 
 <script>
 
-// CHANGE THIS TO YOUR GOOGLE SCRIPT URL
 const scriptURL = "https://script.google.com/macros/s/AKfycbw4BvEdVbYvOZr7tswFcozNM8987yEaIuTxkDAqAbxQmwoVl1NgUVZSTGoAHyE-f9dJ/exec";
 
-// Image preview
-document.getElementById("imageUpload").addEventListener("change", function() {
+function showQR(){
 
-  const file = this.files[0];
-  const preview = document.getElementById("preview");
+let username = document.getElementById("username").value;
+let pkg = document.getElementById("package").value;
 
-  if(file){
-    preview.src = URL.createObjectURL(file);
-    preview.style.display = "block";
-  }
+if(username=="" || pkg==""){
+alert("Please fill all details");
+return;
+}
+
+document.getElementById("paymentSection").classList.remove("hidden");
+
+}
+
+document.getElementById("screenshot").addEventListener("change", function(){
+
+let file = this.files[0];
+let preview = document.getElementById("preview");
+
+if(file){
+preview.src = URL.createObjectURL(file);
+preview.style.display="block";
+}
 
 });
 
+function submitData(){
 
-// Upload function
-function uploadData() {
+let username = document.getElementById("username").value;
+let pkg = document.getElementById("package").value;
+let file = document.getElementById("screenshot").files[0];
 
-  const username = document.getElementById("username").value;
-  const file = document.getElementById("imageUpload").files[0];
+if(!file){
+alert("Upload screenshot");
+return;
+}
 
-  if(!username || !file){
-    alert("Enter username and select image");
-    return;
-  }
+let reader = new FileReader();
 
-  const reader = new FileReader();
+reader.onload = function(){
 
-  reader.onload = function() {
+fetch(scriptURL,{
+method:"POST",
+body:JSON.stringify({
+username:username,
+package:pkg,
+screenshot:reader.result
+})
+})
+.then(res=>res.text())
+.then(data=>{
+alert("Submitted Successfully ✅");
 
-    const base64 = reader.result.split(",")[1];
+document.getElementById("username").value="";
+document.getElementById("package").value="";
+document.getElementById("screenshot").value="";
+document.getElementById("preview").style.display="none";
+document.getElementById("paymentSection").classList.add("hidden");
+})
+.catch(err=>{
+alert("Error submitting ❌");
+});
 
-    fetch(scriptURL, {
-      method: "POST",
-      body: JSON.stringify({
-        username: username,
-        image: base64,
-        filename: file.name
-      })
-    })
-    .then(res => res.text())
-    .then(data => {
-      document.getElementById("status").innerHTML = "Upload successful ✅";
-    })
-    .catch(err => {
-      document.getElementById("status").innerHTML = "Upload failed ❌";
-    });
+};
 
-  };
-
-  reader.readAsDataURL(file);
+reader.readAsDataURL(file);
 
 }
 
