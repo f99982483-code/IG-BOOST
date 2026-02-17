@@ -191,8 +191,30 @@ function go(n){
   document.getElementById('page'+n).classList.add('active');
 }
 </script>
+  <script>
+function sendToSheet() {
+
+  var data = {
+    name: document.getElementById("name").value,
+    mobile: document.getElementById("mobile").value,
+    instagram: document.getElementById("instagram").value,
+    package: document.getElementById("package").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxRuJo0X69JyjECXT0Lgm4G7XQK32_5RZlLAsnaNFlLnUsqrLemmn8tLJdGYM8sniQ/exec", {
+    method: "POST",
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    go(3); // payment page
+  })
+  .catch(() => alert("Error"));
+}
+</script>
+
 
 </body>
 </html>
+
 
 
