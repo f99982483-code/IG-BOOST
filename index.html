@@ -120,11 +120,21 @@ function go(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page'+n).classList.add('active');
 }
+    function sendToSheet(){
 
-function sendToSheet(){
-  if(!name.value || !mobile.value || !insta.value || !followers.value){
+  const nameVal = document.getElementById("name").value.trim();
+  const mobileVal = document.getElementById("mobile").value.trim();
+  const instaVal = document.getElementById("insta").value.trim();
+  const followersVal = document.getElementById("followers").value;
+
+  if(nameVal === "" || mobileVal === "" || instaVal === "" || followersVal === ""){
     alert("Please fill all details");
     return;
+  }
+
+  go(3);
+}
+
   }
 
   fetch(scriptURL,{
@@ -143,4 +153,5 @@ function sendToSheet(){
 
 </body>
 </html>
+
 
