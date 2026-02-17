@@ -91,7 +91,8 @@ input,select{
 </select>
 
 
-    <button class="btn blue" onclick="sendToSheet()">Pay Now</button>
+    <button class="btn blue" onclick="payNow()">Pay Now</button>
+    
   </div>
 </div>
 
@@ -137,22 +138,33 @@ function go(n){
 
   }
 
-  fetch(scriptURL,{
-    method:'POST',
-    body:new FormData(Object.assign(document.createElement('form'),{
-      name:name.value,
-      mobile:mobile.value,
-      insta:insta.value,
-      followers:followers.value
-    }))
+  fetch
+    <script>
+function go(n){
+  document.querySelectorAll('.page').forEach(p=>{
+    p.classList.remove('active');
   });
+  document.getElementById('page'+n).classList.add('active');
+}
 
+// PAY NOW validation
+function payNow(){
+  const nameVal = document.getElementById("name").value.trim();
+  const mobileVal = document.getElementById("mobile").value.trim();
+  const instaVal = document.getElementById("insta").value.trim();
+  const followersVal = document.getElementById("followers").value;
+
+  if(nameVal==="" || mobileVal==="" || instaVal==="" || followersVal===""){
+    alert("Please fill all details");
+    return;
+  }
   go(3);
 }
 </script>
 
 </body>
 </html>
+
 
 
 
