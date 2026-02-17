@@ -6,7 +6,6 @@
 <title>Growvin</title>
 
 <style>
-/* ====== COMMON ====== */
 body{
   margin:0;
   font-family:Arial, sans-serif;
@@ -17,7 +16,6 @@ body{
   display:none;
   min-height:100vh;
   padding:40px 20px;
-  box-sizing:border-box;
   text-align:center;
 }
 .active{display:block;}
@@ -48,55 +46,10 @@ input,select{
   padding:25px;
   border-radius:12px;
 }
-
-/* ====== PAGE 1 (WELCOME + PROOFS) ====== */
-.welcome h1{
-  font-size:44px;
-  animation:fadeDown 1.5s ease;
-}
-.welcome p{
-  opacity:0.9;
-  animation:fadeUp 2s ease;
-}
-.proofs{
-  margin-top:60px;
-}
-.proof-box{
-  background:#ffffff;
-  color:#000;
-  padding:20px;
-  border-radius:10px;
-  margin:15px auto;
-  max-width:420px;
-}
-
-/* ====== PAGE 3 (QR) ====== */
 .qr{
   width:220px;
   margin:20px auto;
 }
-
-/* ====== PAGE 4 (ANIMATION) ====== */
-.thanks h2{
-  animation:pulse 1.5s infinite;
-}
-
-/* ====== ANIMATIONS ====== */
-@keyframes fadeDown{
-  from{opacity:0;transform:translateY(-40px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(40px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.08)}
-  100%{transform:scale(1)}
-}
-
-/* WhatsApp */
 .whatsapp{
   position:fixed;
   bottom:20px;
@@ -113,81 +66,77 @@ input,select{
 
 <body>
 
-<!-- ================= PAGE 1 ================= -->
-<div class="page welcome active" id="page1">
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
   <h1>Welcome to Growvin</h1>
-  <p>Boost Your Instagram Growth Safely 🚀</p>
-
-  <div class="proofs">
-    <h2>Our Proofs</h2>
-
-    <!-- Dummy proofs (replace images later if needed) -->
-    <div class="proof-box">✔️ 1K To 50k Followers Delivered in 24 Hours</div>
-    <div class="proof-box">✔️ Real & Active Profiles</div>
-    <div class="proof-box">✔️ 100+ Happy Customers</div>
-
-    <br>
-    <button class="btn" onclick="go(2)">Continue</button>
-  </div>
+  <p>Boost Your Instagram Growth 🚀</p>
+  <br>
+  <button class="btn" onclick="go(2)">Continue</button>
 </div>
 
-<!-- ================= PAGE 2 ================= -->
+<!-- PAGE 2 -->
 <div class="page" id="page2">
   <h2>Enter Your Details</h2>
-
   <div class="card">
     <input id="name" placeholder="Name" required>
     <input id="mobile" placeholder="Mobile Number" required>
     <input id="insta" placeholder="Instagram ID" required>
 
-    <select id="followers">
+    <select id="followers" required>
       <option value="">Followers Range</option>
-      <option>1k ---28Rs</option>
-      <option>5K ---50Rs</option>
-      <option>10K ---100Rs</option>
-      <option>20K ---200Rs</option>
-      <option>30K ---300Rs</option>
-       <option>40K ---400Rs</option>
-      <option>50K ---500Rs</option>
+      <option>1K - ₹28</option>
+      <option>5K - ₹50</option>
+      <option>10K - ₹100</option>
+      <option>20K - ₹200</option>
     </select>
 
-    <button class="btn blue" onclick="go(3)">Pay Now</button>
+    <button class="btn blue" onclick="sendToSheet()">Pay Now</button>
   </div>
 </div>
 
-<!-- ================= PAGE 3 ================= -->
+<!-- PAGE 3 -->
 <div class="page" id="page3">
   <h2>Scan & Pay</h2>
-
-  <!-- Replace src with YOUR QR IMAGE -->
-  <img src="https://via.placeholder.com/220x220?text=QR+CODE" class="qr">
-
-  <p>Upload Payment Screenshot</p>
-  <input type="file" id="screenshot" accept="image/*">
-
-  <br><br>
-  <button class="btn dark" onclick="go(4)">Submit Payment Proof</button>
+  <img src="myqr.png" class="qr">
+  <br>
+  <button class="btn dark" onclick="go(4)">Payment Done</button>
 </div>
 
-<!-- ================= PAGE 4 ================= -->
-<div class="page thanks" id="page4">
-  <h2>🎉 Thank You!</h2>
-  <p style="font-size:20px;">
-    Within <b>24 Hours</b> Followers Will Be Added ⏳
-  </p>
-  <p>Our team will contact you if needed.</p>
-
+<!-- PAGE 4 -->
+<div class="page" id="page4">
+  <h2>Thank You 🎉</h2>
+  <p>Within 24 Hours Followers Will Be Added</p>
   <br>
   <button class="btn" onclick="go(1)">Back to Home</button>
 </div>
 
-<!-- WhatsApp Floating Button -->
 <a href="https://wa.me/919703760912" target="_blank" class="whatsapp">💬</a>
 
 <script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbxRuJo0X69JyjECXT0Lgm4G7XQK32_5RZlLAsnaNFlLnUsqrLemmn8tLJdGYM8sniQ/exec";
+
 function go(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page'+n).classList.add('active');
+}
+
+function sendToSheet(){
+  if(!name.value || !mobile.value || !insta.value || !followers.value){
+    alert("Please fill all details");
+    return;
+  }
+
+  fetch(scriptURL,{
+    method:'POST',
+    body:new FormData(Object.assign(document.createElement('form'),{
+      name:name.value,
+      mobile:mobile.value,
+      insta:insta.value,
+      followers:followers.value
+    }))
+  });
+
+  go(3);
 }
 </script>
 
