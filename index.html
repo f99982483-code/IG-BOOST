@@ -82,13 +82,14 @@ input,select{
     <input id="mobile" placeholder="Mobile Number" required>
     <input id="insta" placeholder="Instagram ID" required>
 
-    <select id="followers" required>
-      <option value="">Followers Range</option>
-      <option>1K - ₹28</option>
-      <option>5K - ₹50</option>
-      <option>10K - ₹100</option>
-      <option>20K - ₹200</option>
-    </select>
+   <select id="followers" required>
+  <option value="">Followers Range</option>
+  <option value="1K - ₹28">1K - ₹28</option>
+  <option value="5K - ₹50">5K - ₹50</option>
+  <option value="10K - ₹100">10K - ₹100</option>
+  <option value="20K - ₹200">20K - ₹200</option>
+</select>
+
 
     <button class="btn blue" onclick="sendToSheet()">Pay Now</button>
   </div>
@@ -142,3 +143,4 @@ function sendToSheet(){
 
 </body>
 </html>
+
