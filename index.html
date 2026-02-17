@@ -16,9 +16,10 @@ body{
   display:none;
   min-height:100vh;
   padding:40px 20px;
+  box-sizing:border-box;
   text-align:center;
 }
-.active{display:block;}
+#page1{display:block;}
 .btn{
   background:#25D366;
   color:#fff;
@@ -29,7 +30,6 @@ body{
   cursor:pointer;
 }
 .btn.blue{background:#1e90ff}
-.btn.dark{background:#2c5364}
 input,select{
   width:100%;
   padding:12px;
@@ -50,49 +50,43 @@ input,select{
   width:220px;
   margin:20px auto;
 }
-.whatsapp{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#25D366;
-  color:#fff;
-  padding:14px 18px;
-  border-radius:50%;
-  font-size:22px;
-  text-decoration:none;
-}
 </style>
 </head>
 
 <body>
 
 <!-- PAGE 1 -->
-<div class="page active" id="page1">
+<div class="page" id="page1">
   <h1>Welcome to Growvin</h1>
   <p>Boost Your Instagram Growth 🚀</p>
-  <br>
-  <button class="btn" onclick="go(2)">Continue</button>
+
+  <div class="card">
+    <p>✔️ Real Followers</p>
+    <p>✔️ Fast Delivery</p>
+    <p>✔️ Trusted Service</p>
+
+    <button class="btn" onclick="go(2)">Continue</button>
+  </div>
 </div>
 
 <!-- PAGE 2 -->
 <div class="page" id="page2">
   <h2>Enter Your Details</h2>
+
   <div class="card">
     <input id="name" placeholder="Name" required>
     <input id="mobile" placeholder="Mobile Number" required>
     <input id="insta" placeholder="Instagram ID" required>
 
-   <select id="followers" required>
-  <option value="">Followers Range</option>
-  <option value="1K - ₹28">1K - ₹28</option>
-  <option value="5K - ₹50">5K - ₹50</option>
-  <option value="10K - ₹100">10K - ₹100</option>
-  <option value="20K - ₹200">20K - ₹200</option>
-</select>
-
+    <select id="followers" required>
+      <option value="">Select Followers Plan</option>
+      <option value="1K - ₹28">1K - ₹28</option>
+      <option value="5K - ₹50">5K - ₹50</option>
+      <option value="10K - ₹100">10K - ₹100</option>
+      <option value="20K - ₹200">20K - ₹200</option>
+    </select>
 
     <button class="btn blue" onclick="payNow()">Pay Now</button>
-    
   </div>
 </div>
 
@@ -100,62 +94,34 @@ input,select{
 <div class="page" id="page3">
   <h2>Scan & Pay</h2>
   <img src="myqr.png" class="qr">
-  <br>
-  <button class="btn dark" onclick="go(4)">Payment Done</button>
+  <p>Payment complete chesi continue cheyyandi</p>
+
+  <button class="btn" onclick="go(4)">I Have Paid</button>
 </div>
 
 <!-- PAGE 4 -->
 <div class="page" id="page4">
-  <h2>Thank You 🎉</h2>
-  <p>Within 24 Hours Followers Will Be Added</p>
-  <br>
+  <h2>🎉 Thank You</h2>
+  <p>Within <b>24 Hours</b> followers add avuthai</p>
   <button class="btn" onclick="go(1)">Back to Home</button>
 </div>
 
-<a href="https://wa.me/919703760912" target="_blank" class="whatsapp">💬</a>
-
 <script>
-const scriptURL = //"https://script.google.com/macros/s/AKfycbxRuJo0X69JyjECXT0Lgm4G7XQK32_5RZlLAsnaNFlLnUsqrLemmn8tLJdGYM8sniQ/exec";
-
-function go(n){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page'+n).classList.add('active');
-}
-    function sendToSheet(){
-
-  const nameVal = document.getElementById("name").value.trim();
-  const mobileVal = document.getElementById("mobile").value.trim();
-  const instaVal = document.getElementById("insta").value.trim();
-  const followersVal = document.getElementById("followers").value;
-
-  if(nameVal === "" || mobileVal === "" || instaVal === "" || followersVal === ""){
-    alert("Please fill all details");
-    return;
-  }
-
-  go(3);
-}
-
-  }
-
-  fetch
-    <script>
 function go(n){
   document.querySelectorAll('.page').forEach(p=>{
-    p.classList.remove('active');
+    p.style.display="none";
   });
-  document.getElementById('page'+n).classList.add('active');
+  document.getElementById("page"+n).style.display="block";
 }
 
-// PAY NOW validation
 function payNow(){
-  const nameVal = document.getElementById("name").value.trim();
-  const mobileVal = document.getElementById("mobile").value.trim();
-  const instaVal = document.getElementById("insta").value.trim();
-  const followersVal = document.getElementById("followers").value;
+  const name = document.getElementById("name").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const insta = document.getElementById("insta").value.trim();
+  const followers = document.getElementById("followers").value;
 
-  if(nameVal==="" || mobileVal==="" || instaVal==="" || followersVal===""){
-    alert("Please fill all details");
+  if(name==="" || mobile==="" || insta==="" || followers===""){
+    alert("Please fill all required fields");
     return;
   }
   go(3);
@@ -164,7 +130,3 @@ function payNow(){
 
 </body>
 </html>
-
-
-
-
