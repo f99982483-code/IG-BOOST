@@ -2,122 +2,257 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Instagram Followers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Instagram Boost</title>
+
 <style>
+
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0f172a;
-  color:#fff;
-  text-align:center;
+margin:0;
+font-family: Arial, sans-serif;
+background: linear-gradient(45deg,#405DE6,#5851DB,#833AB4,#C13584,#E1306C,#FD1D1D,#F56040,#F77737,#FCAF45,#FFDC80);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
 }
-.page{display:none; padding:30px}
-.page.active{display:block}
+
+.page{
+display:none;
+width:100%;
+max-width:400px;
+}
+
+.active{
+display:block;
+}
+
+.card{
+background:white;
+color:black;
+padding:25px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 0 25px rgba(0,0,0,0.3);
+}
+
+h1{
+margin-bottom:20px;
+}
+
 input,select{
-  width:90%;
-  padding:12px;
-  margin:10px 0;
-  border-radius:8px;
-  border:none;
-  font-size:16px;
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:16px;
 }
-button{
-  padding:14px 30px;
-  font-size:18px;
-  border:none;
-  border-radius:30px;
-  background:#1e90ff;
-  color:#fff;
-  cursor:pointer;
-  box-shadow:0 0 15px rgba(30,144,255,0.6);
+
+.btn{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:8px;
+font-size:18px;
+color:white;
+background:#0095f6;
+cursor:pointer;
+transition:0.3s;
 }
-button:hover{
-  box-shadow:0 0 25px rgba(30,144,255,1);
+
+.btn:hover{
+background:#1877f2;
+box-shadow:0 0 15px #0095f6;
 }
-.qr{width:200px;margin:20px auto}
+
+.qr{
+width:220px;
+margin:20px auto;
+display:block;
+}
+
+.timer{
+font-size:22px;
+font-weight:bold;
+color:#0095f6;
+}
+
+.thank{
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.1)}
+100%{transform:scale(1)}
+}
+
 </style>
 </head>
-
 <body>
 
-<!-- PAGE 1 -->
-<div class="page active" id="p1">
-  <h2>Enter Instagram Username</h2>
-  <input id="username" placeholder="@username" required>
-  <br>
-  <button onclick="go(2)">Continue</button>
+<!-- PAGE 1 USERNAME -->
+<div class="page active" id="page1">
+
+<div class="card">
+
+<h1>Instagram</h1>
+
+<input id="username" placeholder="Enter Instagram Username">
+
+<button class="btn" onclick="next1()">Continue</button>
+
+</div>
 </div>
 
-<!-- PAGE 2 -->
-<div class="page" id="p2">
-  <h2>Enter Details</h2>
-  <input id="name" placeholder="Name" required>
-  <input id="mobile" placeholder="Mobile Number" required>
-  <select id="package">
-    <option value="">Select Package</option>
-    <option>1K Followers</option>
-    <option>5K Followers</option>
-    <option>10K Followers</option>
-  </select>
-  <button onclick="go(3)">Pay Now</button>
+
+<!-- PAGE 2 DETAILS -->
+<div class="page" id="page2">
+
+<div class="card">
+
+<h1>Enter Details</h1>
+
+<input id="name" placeholder="Full Name">
+
+<input id="mobile" placeholder="Mobile Number">
+
+<select id="package">
+<option value="">Select Package</option>
+<option>1K Followers ₹28</option>
+<option>5K Followers ₹50</option>
+<option>10K Followers ₹100</option>
+<option>20K Followers ₹200</option>
+<option>50K Followers ₹500</option>
+</select>
+
+<button class="btn" onclick="next2()">Continue</button>
+
+</div>
 </div>
 
-<!-- PAGE 3 -->
-<div class="page" id="p3">
-  <h2>Scan & Pay</h2>
-  <img src="https://via.placeholder.com/200?text=QR" class="qr">
-  <p>Upload Payment Screenshot</p>
-  <input type="file" id="file" accept="image/*">
-  <button onclick="submitData()">Submit</button>
-  <p id="timer"></p>
+
+<!-- PAGE 3 PAYMENT -->
+<div class="page" id="page3">
+
+<div class="card">
+
+<h1>Scan & Pay</h1>
+
+<img src="myqr.png" class="qr">
+
+<input type="file" id="file">
+
+<button class="btn" onclick="upload()">Upload</button>
+
+<p class="timer" id="timer"></p>
+
+</div>
 </div>
 
-<!-- PAGE 4 -->
-<div class="page" id="p4">
-  <h2>🎉 Thank You</h2>
-  <p>Within <b>24 Hours</b> followers will be added</p>
+
+<!-- PAGE 4 THANK YOU -->
+<div class="page" id="page4">
+
+<div class="card thank">
+
+<h1>Thank You ❤️</h1>
+
+<p>Followers will be delivered within</p>
+
+<h2>24 Hours</h2>
+
 </div>
+
+</div>
+
+
 
 <script>
-// 🔗 PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycby2n7kUfC9rRAE_ozyK5G5BGjWA7Z-PeSj4GG1SldXLSNTuxEZS63zm0-vfVNZ8ENSZRQ/exec";
 
-function go(n){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById("p"+n).classList.add("active");
+function show(page)
+{
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(page).classList.add("active");
 }
 
-function submitData(){
-  if(document.getElementById("file").files.length===0){
-    alert("Upload screenshot");
-    return;
-  }
 
-  fetch(SCRIPT_URL,{
-    method:"POST",
-    body:JSON.stringify({
-      username:username.value,
-      name:name.value,
-      mobile:mobile.value,
-      package:package.value
-    })
-  }).then(()=>{
-    let t=5;
-    timer.innerHTML="Verifying "+t;
-    let i=setInterval(()=>{
-      t--;
-      timer.innerHTML="Verifying "+t;
-      if(t===0){
-        clearInterval(i);
-        go(4);
-      }
-    },1000);
-  });
+
+function next1()
+{
+
+let username=document.getElementById("username").value;
+
+if(username=="")
+{
+alert("Enter Username");
+return;
 }
+
+show("page2");
+
+}
+
+
+
+function next2()
+{
+
+let name=document.getElementById("name").value;
+let mobile=document.getElementById("mobile").value;
+let package=document.getElementById("package").value;
+
+if(name=="" || mobile=="" || package=="")
+{
+alert("Fill all details");
+return;
+}
+
+show("page3");
+
+}
+
+
+
+function upload()
+{
+
+let file=document.getElementById("file").files.length;
+
+if(file==0)
+{
+alert("Upload Screenshot");
+return;
+}
+
+let time=5;
+
+document.getElementById("timer").innerHTML="Verifying "+time;
+
+let interval=setInterval(function(){
+
+time--;
+
+document.getElementById("timer").innerHTML="Verifying "+time;
+
+if(time==0)
+{
+clearInterval(interval);
+
+show("page4");
+
+}
+
+},1000);
+
+}
+
 </script>
+
 
 </body>
 </html>
